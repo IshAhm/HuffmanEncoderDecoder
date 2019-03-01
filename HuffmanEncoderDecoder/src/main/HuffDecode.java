@@ -16,8 +16,8 @@ import io.InsufficientBitsLeftException;
 public class HuffDecode {
 
 	public static void main(String[] args) throws InsufficientBitsLeftException, IOException {
-		String input_file_name = "data/compressed.dat";	//change from recompressed to compressed
-		String output_file_name = "data/reuncompressed.txt";
+		String input_file_name = "data/recompressed.txt";	//change to test the compressed file after encoding
+		String output_file_name = "data/compressedagain.txt";
 		
 		FileInputStream fis = new FileInputStream(input_file_name);
 
@@ -58,6 +58,7 @@ public class HuffDecode {
 				// Decode next symbol using huff_tree and write out to file.
 				int de = huff_tree.decode(bit_source);
 				System.out.print((char)de);
+				fos.write(de);
 			}
 
 			// Flush output and close files.

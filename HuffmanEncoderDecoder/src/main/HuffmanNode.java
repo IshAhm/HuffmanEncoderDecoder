@@ -66,7 +66,7 @@ public interface HuffmanNode extends Comparable<HuffmanNode> {
 	public void setLeft(HuffmanNode leftChild);
 	public void setRight(HuffmanNode rightChild);
 	
-	
+	public void printPostorder();
 	// compareTo implements the Comparable interface for 
 	// two nodes. First compares by count and then by height.
 	default int compareTo(HuffmanNode other) {

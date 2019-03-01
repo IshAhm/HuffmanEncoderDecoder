@@ -5,10 +5,23 @@ public class InternalHuffmanNode implements HuffmanNode {
 	private HuffmanNode left;
 	private int frequency;
 	private boolean leaf = false;
+	private int height;
 	
 	public InternalHuffmanNode(HuffmanNode right, HuffmanNode left) {
 		this.right = right;
 		this.left = left;
+	}
+	
+	//new constructor to include height
+	public InternalHuffmanNode(HuffmanNode right, HuffmanNode left, int height) {
+		this.right = right;
+		this.left = left;
+		int max;
+		if(right.height() > left.height())
+			max = right.height();
+		else
+			max=left.height();
+		this.height = max + 1;
 	}
 	
 	@Override
@@ -36,6 +49,7 @@ public class InternalHuffmanNode implements HuffmanNode {
 
 	@Override
 	public int height() {
+		/*
 		int theHeight = 1;
 		if(right.isLeaf() && left.isLeaf()) {
 			return theHeight;
@@ -52,6 +66,8 @@ public class InternalHuffmanNode implements HuffmanNode {
 			theHeight = theHeight + greaterH;
 		}
 		return theHeight;
+		*/
+		return this.height;
 	}
 
 	@Override
@@ -117,6 +133,21 @@ public class InternalHuffmanNode implements HuffmanNode {
 	@Override
 	public HuffmanNode right() {
 		return this.right;
+	}
+
+	@Override
+	public void printPostorder() {
+	
+		if(left().isLeaf()) {
+			System.out.println(left().symbol() + " " + left().count());
+			
+		}
+		if(right().isLeaf()) {
+			System.out.println(right().symbol() + " " + right().count());
+			
+		}
+		left().printPostorder();
+		right().printPostorder();
 	}
 
 	
