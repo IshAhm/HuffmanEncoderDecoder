@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.plaf.synth.SynthSeparatorUI;
 
@@ -100,8 +102,43 @@ public class playground {
 			// Resort
 			node_list.sort(null);
 		}
-		HuffmanNode a = node_list.get(0);
-		//a.printPostorder();
+		Map<Integer, String> cmap = new HashMap<Integer, String>();
+		HuffmanEncoder test = new HuffmanEncoder();
+		test.addCodes(cmap, node_list.get(0), "");
+		
+		List<SymbolWithCodeLength> sym_with_length = new ArrayList<SymbolWithCodeLength>();
+		for(int i = 0; i<256; i++) {
+			String codeword = cmap.get(i);
+			int code_length = codeword.length();
+			sym_with_length.add(new SymbolWithCodeLength(i, code_length));
+		}
+		
+		// Sort sym_with_lenght
+		sym_with_length.sort(null);
+		for(int i = 0; i<256; i++) {
+			SymbolWithCodeLength yeet = sym_with_length.get(i);
+			System.out.println(yeet.value());
+			System.out.println(yeet.codeLength());
+		}
+		InternalHuffmanNode canonical_root = new InternalHuffmanNode(null, null);
+		
+		for(int i = 0; i < sym_with_length.size(); i++){
+			SymbolWithCodeLength mem = sym_with_length.get(i);
+			canonical_root.insertSymbol(mem.codeLength(), mem.value());
+		}
+
+		// If all went well, tree should be full.
+		assert canonical_root.isFull();
+		
+		// Create code map that encoder will use for encoding
+		
+		HashMap _code_map = new HashMap<Integer, String>();
+		
+		// Walk down canonical tree forming code strings as you did before and
+		// insert into map.
+		test.addCodes(_code_map, canonical_root, "");
+		System.out.println(test.getCode(2));
+		
 	}
 
 }

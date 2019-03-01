@@ -48,16 +48,23 @@ public class HuffEncode {
 		OutputStreamBitSink bit_sink = new OutputStreamBitSink(fos);
 
 		// Write out code lengths for each symbol as 8 bit value to output file.
-		
+		for(int i =0; i<256; i++) {
+			String code = encoder.getCode(i);
+			int codeLen = code.length();
+			bit_sink.write(codeLen, 8);
+		}
 		// Write out total number of symbols as 32 bit value.
-
+		bit_sink.write(num_symbols, 32);
 		// Reopen input file.
 		fis = new FileInputStream(input_file_name);
 
 		// Go through input file, read each symbol (i.e. byte),
 		// look up code using encoder.getCode() and write code
         // out to output file.
-		
+		int d;
+		while((d = fis.read()) != -1) {
+			bit_sink.write(encoder.getCode(d));
+		}
 
 		// Pad output to next word.
 		bit_sink.padToWord();

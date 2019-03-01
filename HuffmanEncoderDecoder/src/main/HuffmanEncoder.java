@@ -12,6 +12,11 @@ public class HuffmanEncoder {
 		
 	private Map<Integer, String> _code_map;
 	
+	//generic constructor
+	public HuffmanEncoder() {
+		
+	}
+	
 	public HuffmanEncoder(int[] symbols, int[] symbol_counts) {
 		assert symbols.length == symbol_counts.length;
 		
@@ -57,6 +62,7 @@ public class HuffmanEncoder {
 		// Start at root and walk down to each leaf, forming code string along the
 		// way (0 means left, 1 means right). Insert mapping between symbol value and
 		// code string into cmap when each leaf is reached.
+		addCodes(cmap, node_list.get(0), "");
 		
 		// Create empty list of SymbolWithCodeLength objects
 		List<SymbolWithCodeLength> sym_with_length = new ArrayList<SymbolWithCodeLength>();
@@ -64,13 +70,23 @@ public class HuffmanEncoder {
 		// For each symbol value, find code string in cmap and create new SymbolWithCodeLength
 		// object as appropriate (i.e., using the length of the code string you found in cmap).
 		
+		for(int i = 0; i<256; i++) {
+			String codeword = cmap.get(i);
+			int code_length = codeword.length();
+			sym_with_length.add(new SymbolWithCodeLength(i, code_length));
+		}
+		
 		// Sort sym_with_lenght
 		sym_with_length.sort(null);
 
 		// Now construct the canonical tree as you did in HuffmanDecodeTree constructor
 		
-		InternalHuffmanNode canonical_root = new InternalHuffmanNode();
+		InternalHuffmanNode canonical_root = new InternalHuffmanNode(null, null);
 		
+		for(int i = 0; i < sym_with_length.size(); i++){
+			SymbolWithCodeLength mem = sym_with_length.get(i);
+			canonical_root.insertSymbol(mem.codeLength(), mem.value());
+		}
 
 		// If all went well, tree should be full.
 		assert canonical_root.isFull();
@@ -80,7 +96,8 @@ public class HuffmanEncoder {
 		_code_map = new HashMap<Integer, String>();
 		
 		// Walk down canonical tree forming code strings as you did before and
-		// insert into map.		
+		// insert into map.
+		addCodes(_code_map, canonical_root, "");
 	}
 
 	public String getCode(int symbol) {
@@ -89,6 +106,17 @@ public class HuffmanEncoder {
 
 	public void encode(int symbol, OutputStreamBitSink bit_sink) throws IOException {
 		bit_sink.write(_code_map.get(symbol));
+	}
+	
+	public void addCodes(Map<Integer, String> m, HuffmanNode n, String code) {
+		if (n.isLeaf()) {
+			m.put(n.symbol(), code);
+		} else {
+			if(n.left() != null)
+				addCodes(m, n.left(), code + "0");
+			if(n.right() !=null)
+				addCodes(m, n.right(), code + "1");
+		}
 	}
 
 }
