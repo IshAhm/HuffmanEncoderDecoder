@@ -10,7 +10,7 @@ import io.OutputStreamBitSink;
 public class HuffEncode {
 
 	public static void main(String[] args) throws IOException {
-		String input_file_name = "data/uncompressed.txt";
+		String input_file_name = "data/reuncompressed.txt";
 		String output_file_name = "data/recompressed.txt";
 
 		FileInputStream fis = new FileInputStream(input_file_name);
@@ -22,7 +22,13 @@ public class HuffEncode {
 		// update appropriate count value in symbol_counts
 		// Should end up with total number of symbols 
 		// (i.e., length of file) as num_symbols
-
+		int c;
+		while((c = fis.read()) != -1) {
+			symbol_counts[c]++;
+			num_symbols++;
+		}
+		
+		
 		// Close input file
 		fis.close();
 

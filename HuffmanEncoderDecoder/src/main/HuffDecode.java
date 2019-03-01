@@ -58,6 +58,7 @@ public class HuffDecode {
 				// Decode next symbol using huff_tree and write out to file.
 				int de = huff_tree.decode(bit_source);
 				System.out.print((char)de);
+				fos.write(de);
 			}
 
 			// Flush output and close files.

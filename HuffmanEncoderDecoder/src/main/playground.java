@@ -52,6 +52,7 @@ public class playground {
 		InternalHuffmanNode yote = new InternalHuffmanNode(yite, yeet);
 		System.out.println(yote.isFull());
 		*/
+		/*
 		HuffmanNode root = new InternalHuffmanNode(null,null);
 		root.insertSymbol(2, 5);
 		root.insertSymbol(2, 6);
@@ -61,6 +62,46 @@ public class playground {
 		System.out.println(root.left().right().symbol());
 		System.out.println(root.right().left().left().symbol());
 		System.out.println(root.right().left().right().symbol());
+		*/
 		
+		String input_file_name = "data/reuncompressed.txt";
+		String output_file_name = "data/recompressed.txt";
+
+		FileInputStream fis = new FileInputStream(input_file_name);
+
+		int[] symbol_counts = new int[256];
+		int num_symbols = 0;
+		int c;
+		while((c = fis.read()) != -1) {
+			symbol_counts[c]++;
+			num_symbols++;
+		}
+		int[] symbols = new int[256];
+		for (int i=0; i<256; i++) {
+			symbols[i] = i;
+		}
+		List<HuffmanNode> node_list = new ArrayList<HuffmanNode>();
+		for(int i = 0; i < 256; i++) {
+			LeafHuffmanNode a = new LeafHuffmanNode();
+			a.setSymbol(i);
+			a.setFreq(symbol_counts[i]);
+			node_list.add(a);
+		}
+		node_list.sort(null);
+		while(node_list.size() > 1) {
+			// Remove the two nodes associated with the smallest counts
+			HuffmanNode a = node_list.remove(0);
+			HuffmanNode b = node_list.remove(0);
+			
+			// Create a new internal node with those two nodes as children.
+			node_list.add(new InternalHuffmanNode(a, b, 1)); 
+			// Add the new internal node back into the list
+			
+			// Resort
+			node_list.sort(null);
+		}
+		HuffmanNode a = node_list.get(0);
+		//a.printPostorder();
 	}
+
 }

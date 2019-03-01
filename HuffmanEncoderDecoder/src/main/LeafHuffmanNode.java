@@ -7,9 +7,14 @@ public class LeafHuffmanNode implements HuffmanNode {
 	private int symbol;
 	private int height = 0;
 	
-
+	
+	
 	public void setSymbol(int sym) {
 		symbol = sym;
+	}
+	
+	public void setFreq(int freq) {
+		frequency = freq;
 	}
 	
 	@Override
@@ -75,6 +80,10 @@ public class LeafHuffmanNode implements HuffmanNode {
 	public void setRight(HuffmanNode rightChild) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void printPostorder() {		
 	}
 
 }

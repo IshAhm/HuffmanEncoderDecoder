@@ -27,19 +27,28 @@ public class HuffmanEncoder {
 		
 		// Create a leaf node for each symbol, encapsulating the
 		// frequency count information into each leaf.
-
+		for(int i = 0; i < 256; i++) {
+			LeafHuffmanNode a = new LeafHuffmanNode();
+			a.setSymbol(i);
+			a.setFreq(symbol_counts[i]);
+			node_list.add(a);
+		}
+		
 		// Sort the leaf nodes
 		node_list.sort(null);
 
 		// While you still have more than one node in your list...
 		while(node_list.size() > 1) {
 			// Remove the two nodes associated with the smallest counts
+			HuffmanNode a = node_list.remove(0);
+			HuffmanNode b = node_list.remove(0);
 			
 			// Create a new internal node with those two nodes as children.
-			
+			HuffmanNode c = new InternalHuffmanNode(a, b, 1); 
 			// Add the new internal node back into the list
-			
+			node_list.add(c);
 			// Resort
+			node_list.sort(null);
 		}
 
 		// Create a temporary empty mapping between symbol values and their code strings
