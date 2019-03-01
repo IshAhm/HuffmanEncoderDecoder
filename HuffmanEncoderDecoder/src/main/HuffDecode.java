@@ -16,8 +16,8 @@ import io.InsufficientBitsLeftException;
 public class HuffDecode {
 
 	public static void main(String[] args) throws InsufficientBitsLeftException, IOException {
-		String input_file_name = "data/recompressed.txt";	//change to test the compressed file after encoding
-		String output_file_name = "data/compressedagain.txt";
+		String input_file_name = "data/compressedfromencoder.txt";	//change to test the compressed file after encoding
+		String output_file_name = "data/uncompressedtotestencoder.txt";
 		
 		FileInputStream fis = new FileInputStream(input_file_name);
 
