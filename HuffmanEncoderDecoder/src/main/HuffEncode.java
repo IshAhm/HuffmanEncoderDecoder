@@ -10,8 +10,8 @@ import io.OutputStreamBitSink;
 public class HuffEncode {
 
 	public static void main(String[] args) throws IOException {
-		String input_file_name = "data/reuncompressed.txt";
-		String output_file_name = "data/recompressed.txt";
+		String input_file_name = "data/uncompressed.txt";
+		String output_file_name = "data/compressedFromEncoder.txt";
 
 		FileInputStream fis = new FileInputStream(input_file_name);
 
